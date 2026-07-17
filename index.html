@@ -3,230 +3,409 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мониторинг лесных массивов и термоаномалий</title>
+    <title>Ситуационный центр мониторинга пожаров</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Подключаем стили и скрипты карты Leaflet.js -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f4f6f9;
-            color: #333;
+            background-color: #f1f5f9;
+            color: #1e293b;
             margin: 0;
-            padding: 20px;
+            padding: 24px;
         }
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
-        h2 {
+        header {
+            margin-bottom: 24px;
+        }
+        header h1 {
+            font-size: 26px;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            color: #0f172a;
+        }
+        header p {
+            margin: 0;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* Карточки метрик (KPI) */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        .kpi-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border-left: 4px solid #cbd5e1;
+        }
+        .kpi-card.critical { border-left-color: #ef4444; }
+        .kpi-card.warning { border-left-color: #f97316; }
+        .kpi-card.success { border-left-color: #22c55e; }
+        
+        .kpi-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .kpi-value {
             font-size: 24px;
             font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            color: #0f172a;
         }
-        /* Стилизация таблицы и контейнера со скроллом */
-        .table-container {
+
+        /* Главная рабочая область (Карта + Таблица) */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 450px;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        @media (max-width: 1024px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Стили карты */
+        .map-wrapper {
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-            overflow: hidden;
-            margin-bottom: 30px;
+            border-radius: 16px;
+            padding: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            height: 550px;
+            display: flex;
+            flex-direction: column;
         }
-        .table-scroll {
-            max-height: 420px;
-            overflow-y: auto;
-        }
-        table {
+        #map {
+            flex-index: 1;
             width: 100%;
-            border-collapse: collapse;
-            text-align: left;
+            height: 100%;
+            border-radius: 12px;
+            z-index: 1;
         }
-        th {
-            background-color: #f8fafc;
-            color: #64748b;
+
+        /* Правая панель со списком */
+        .panel-wrapper {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            height: 534px;
+        }
+        .panel-header {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #0f172a;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 12px;
+        }
+        .fires-list {
+            overflow-y: auto;
+            flex: 1;
+            padding-right: 4px;
+        }
+        .fire-item {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .fire-item:hover {
+            border-color: #cbd5e1;
+            background: #f1f5f9;
+            transform: translateY(-1px);
+        }
+        .fire-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6px;
+        }
+        .fire-item-loc {
             font-weight: 600;
-            font-size: 13px;
-            text-transform: uppercase;
-            padding: 14px 20px;
-            border-bottom: 2px solid #e2e8f0;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        td {
-            padding: 14px 20px;
-            border-bottom: 1px solid #edf2f7;
             font-size: 14px;
-            vertical-align: middle;
-        }
-        tr:hover {
-            background-color: #f8fafc;
-        }
-        /* Индикаторы интенсивности горения */
-        .badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 13px;
-        }
-        .badge-high { background-color: #fee2e2; color: #ef4444; }
-        .badge-medium { background-color: #ffedd5; color: #f97316; }
-        .badge-low { background-color: #f0fdf4; color: #22c55e; }
-        
-        .location-text {
-            font-weight: 600;
             color: #1e293b;
         }
-        .coordinates-text {
-            color: #64748b;
-            font-size: 13px;
+        .fire-item-time {
+            font-size: 12px;
+            color: #94a3b8;
         }
-        .btn-maps {
-            display: inline-flex;
+        .fire-item-meta {
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            background-color: #3b82f6;
-            color: white;
-            text-decoration: none;
-            padding: 6px 12px;
-            border-radius: 6px;
             font-size: 13px;
-            font-weight: 500;
-            transition: background-color 0.2s;
         }
-        .btn-maps:hover {
-            background-color: #2563eb;
+        .fire-item-coords {
+            color: #64748b;
         }
-        /* Блок карт NDMI */
-        .maps-grid {
+
+        /* Индикаторы мощности */
+        .frp-badge {
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .frp-high { background: #fee2e2; color: #ef4444; }
+        .frp-medium { background: #ffedd5; color: #f97316; }
+        .frp-low { background: #f0fdf4; color: #22c55e; }
+
+        /* Секция карт NDMI */
+        .ndmi-section h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0 0 16px 0;
+        }
+        .ndmi-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 20px;
+            gap: 24px;
         }
-        .map-card {
+        @media (max-width: 768px) {
+            .ndmi-grid { grid-template-columns: 1fr; }
+        }
+        .ndmi-card {
             background: white;
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 20px;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
             text-align: center;
         }
-        .map-card h3 {
-            margin-top: 0;
-            color: #1e293b;
-            font-size: 18px;
+        .ndmi-card h3 {
+            margin: 0 0 4px 0;
+            font-size: 15px;
+            font-weight: 600;
         }
-        .map-card p {
-            color: #64748b;
+        .ndmi-card p {
+            margin: 0 0 16px 0;
             font-size: 13px;
-            margin-bottom: 15px;
+            color: #64748b;
         }
-        .map-card img {
+        .ndmi-card img {
             max-width: 100%;
             height: auto;
             border-radius: 8px;
             border: 1px solid #e2e8f0;
-        }
-        @media (max-width: 768px) {
-            .maps-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>🔥 Оперативный мониторинг термоаномалий (NASA FIRMS)</h2>
-    
-    <div class="table-container">
-        <div class="table-scroll">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Время фиксации</th>
-                        <th>Район / Ориентир</th>
-                        <th>Координаты</th>
-                        <th>Мощность излучения</th>
-                        <th>Карта</th>
-                    </tr>
-                </thead>
-                <tbody id="fires-tbody">
-                    <tr>
-                        <td colspan="5" style="text-align: center; color: #64748b; padding: 30px;">
-                            Загрузка актуальных данных тепловых аномалий...
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    <header>
+        <h1>Ситуационный центр мониторинга лесных массивов</h1>
+        <p>Оперативные спутниковые данные тепловых аномалий NASA FIRMS и индексы влажности NDMI</p>
+    </header>
+
+    <!-- KPI Блок -->
+    <div class="kpi-grid">
+        <div class="kpi-card" id="kpi-total-card">
+            <div class="kpi-label">Активные термоаномалии</div>
+            <div class="kpi-value" id="kpi-total">0</div>
+        </div>
+        <div class="kpi-card" id="kpi-max-card">
+            <div class="kpi-label">Макс. тепловая мощность</div>
+            <div class="kpi-value" id="kpi-max">0 МВт</div>
+        </div>
+        <div class="kpi-card" id="kpi-status-card">
+            <div class="kpi-label">Статус мониторинга</div>
+            <div class="kpi-value" id="kpi-status">Анализ...</div>
         </div>
     </div>
 
-    <h2>🌲 Индексы влажности леса (NDMI)</h2>
-    <div class="maps-grid">
-        <div class="map-card">
-            <h3>Павлодарская область</h3>
-            <p>Шалдайский бор (Резерват "Ертіс орманы")</p>
-            <img src="static/ndmi_pavlodar.png" alt="Карта влажности Павлодар">
+    <!-- Основная рабочая область -->
+    <div class="dashboard-grid">
+        <!-- Интерактивная карта -->
+        <div class="map-wrapper">
+            <div id="map"></div>
         </div>
-        <div class="map-card">
-            <h3>Абайская область</h3>
-            <p>Природный резерват "Семей орманы"</p>
-            <img src="static/ndmi_semey.png" alt="Карта влажности Семей">
+
+        <!-- Боковая панель списка -->
+        <div class="panel-wrapper">
+            <div class="panel-header">Оперативная сводка очагов</div>
+            <div class="fires-list" id="fires-list-container">
+                <!-- Сюда JS вставит карточки -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Раздел карт NDMI -->
+    <div class="ndmi-section">
+        <h2>Индексы влажности лесных массивов (NDMI)</h2>
+        <div class="ndmi-grid">
+            <div class="ndmi-card">
+                <h3>Павлодарская область</h3>
+                <p>Шалдайский бор (Резерват "Ертіс орманы")</p>
+                <img src="static/ndmi_pavlodar.png" alt="Карта влажности Павлодар">
+            </div>
+            <div class="ndmi-card">
+                <h3>Абайская область</h3>
+                <p>Природный резерват "Семей орманы"</p>
+                <img src="static/ndmi_semey.png" alt="Карта влажности Семей">
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    async function loadActiveFires() {
+    // Инициализируем карту Leaflet с центром на границе областей
+    const map = L.map('map').setView([50.7, 79.5], 7);
+
+    // Подключаем слой красивой светлой карты (CartoDB Positron)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap &copy; CARTO'
+    }).addTo(map);
+
+    // Массив для хранения всех маркеров на карте
+    let markersGroup = L.layerGroup().addTo(map);
+    let fireMarkersMap = {};
+
+    async function updateDashboard() {
         try {
-            // Запрашиваем JSON-файл, генерируемый Python-ботом (добавляем timestamp от кэширования)
             const response = await fetch(`static/active_fires.json?t=${new Date().getTime()}`);
-            if (!response.ok) throw new Error("Файл данных не найден");
-            
+            if (!response.ok) throw new Error("Ошибка загрузки JSON");
             const fires = await response.json();
-            const tbody = document.getElementById('fires-tbody');
+
+            // Очищаем старые маркеры
+            markersGroup.clearLayers();
+            fireMarkersMap = {};
+
+            const listContainer = document.getElementById('fires-list-container');
             
+            // Если пожаров нет
             if (fires.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #22c55e; font-weight: 500; padding: 30px;">✅ Активных критических термоаномалий в лесных зонах не обнаружено</td></tr>`;
+                document.getElementById('kpi-total').innerText = '0';
+                document.getElementById('kpi-max').innerText = '0 МВт';
+                document.getElementById('kpi-status').innerText = 'Стабильно';
+                
+                document.getElementById('kpi-total-card').className = 'kpi-card success';
+                document.getElementById('kpi-max-card').className = 'kpi-card success';
+                document.getElementById('kpi-status-card').className = 'kpi-card success';
+                
+                listContainer.innerHTML = `<div style="text-align: center; color: #22c55e; font-weight: 500; padding: 40px 10px;">✅ Критических очагов в лесных зонах не обнаружено</div>`;
                 return;
             }
+
+            // Вычисляем KPI метрики
+            let maxFrp = 0;
+            fires.forEach(f => { if(parseFloat(f.frp) > maxFrp) maxFrp = parseFloat(f.frp); });
+
+            document.getElementById('kpi-total').innerText = fires.length;
+            document.getElementById('kpi-max').innerText = `${maxFrp.toFixed(1)} МВт`;
             
-            let html = '';
-            fires.forEach(fire => {
+            if (maxFrp >= 30) {
+                document.getElementById('kpi-status').innerText = 'Критический';
+                document.getElementById('kpi-status-card').className = 'kpi-card critical';
+                document.getElementById('kpi-total-card').className = 'kpi-card critical';
+                document.getElementById('kpi-max-card').className = 'kpi-card critical';
+            } else {
+                document.getElementById('kpi-status').innerText = 'Повышенный риск';
+                document.getElementById('kpi-status-card').className = 'kpi-card warning';
+                document.getElementById('kpi-total-card').className = 'kpi-card warning';
+                document.getElementById('kpi-max-card').className = 'kpi-card warning';
+            }
+
+            let listHtml = '';
+            
+            // Отрисовываем маркеры и карточки списка
+            fires.forEach((fire, index) => {
+                const lat = parseFloat(fire.lat);
+                const lon = parseFloat(fire.lon);
                 const frp = parseFloat(fire.frp);
-                let badgeClass = 'badge-low';
                 
-                // Классификация опасности по мощности излучения
+                // Цвет маркера в зависимости от угрозы
+                let markerColor = '#22c55e'; // Зеленый (слабый)
+                let badgeClass = 'frp-low';
                 if (frp >= 25.0) {
-                    badgeClass = 'badge-high';
+                    markerColor = '#ef4444'; // Красный (сильный)
+                    badgeClass = 'frp-high';
                 } else if (frp >= 12.0) {
-                    badgeClass = 'badge-medium';
+                    markerColor = '#f97316'; // Оранжевый (средний)
+                    badgeClass = 'frp-medium';
                 }
+
+                // Добавляем маркер круга на карту
+                const marker = L.circleMarker([lat, lon], {
+                    radius: Math.min(Math.max(frp * 0.2, 6), 18), // Динамический размер круга от мощности
+                    fillColor: markerColor,
+                    color: '#fff',
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                });
+
+                // Красивый Popup при клике на маркер
+                marker.bindPopup(`
+                    <div style="font-family: 'Inter', sans-serif; font-size: 13px;">
+                        <b style="font-size: 14px; color: #0f172a;">${fire.location}</b><br>
+                        <span style="color: #64748b;">Время:</span> ${fire.time}<br>
+                        <span style="color: #64748b;">Мощность:</span> <b style="color: ${markerColor}">${fire.frp} МВт</b><br>
+                        <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 8px 0;">
+                        <a href="${fire.maps_link}" target="_blank" style="color: #3b82f6; text-decoration: none; font-weight: 500;">Открыть в Google Maps →</a>
+                    </div>
+                `);
                 
-                html += `
-                    <tr>
-                        <td>${fire.time}</td>
-                        <td class="location-text">${fire.location}</td>
-                        <td class="coordinates-text">${fire.lat}, ${fire.lon}</td>
-                        <td><span class="badge ${badgeClass}">${fire.frp} МВт</span></td>
-                        <td><a href="${fire.maps_link}" target="_blank" class="btn-maps">Google Maps</a></td>
-                    </tr>
+                markersGroup.addLayer(marker);
+                
+                // Сохраняем ссылку на маркер для интерактива из списка
+                const fireId = `fire-${index}`;
+                fireMarkersMap[fireId] = marker;
+
+                // Строим HTML карточки для боковой панели
+                listHtml += `
+                    <div class="fire-item" onclick="focusOnFire('${fireId}', ${lat}, ${lon})">
+                        <div class="fire-item-header">
+                            <div class="fire-item-loc">${fire.location}</div>
+                            <span class="frp-badge ${badgeClass}">${fire.frp} МВт</span>
+                        </div>
+                        <div class="fire-item-meta">
+                            <div class="fire-item-coords">${lat}, ${lon}</div>
+                            <div class="fire-item-time">${fire.time.split(' ')[1]}</div>
+                        </div>
+                    </div>
                 `;
             });
-            
-            tbody.innerHTML = html;
+
+            listContainer.innerHTML = listHtml;
+
         } catch (error) {
             console.error(error);
-            document.getElementById('fires-tbody').innerHTML = `
-                <tr><td colspan="5" style="text-align: center; color: #ef4444; padding: 30px;">⚠️ Ошибка обновления данных. Повторный запрос выполняется в фоновом режиме...</td></tr>
-            `;
+            document.getElementById('kpi-status').innerText = 'Ошибка сети';
         }
     }
 
-    // Первичная загрузка и автообновление таблицы каждые 60 секунд прямо в браузере
-    loadActiveFires();
-    setInterval(loadActiveFires, 60000);
+    // Функция центрирования карты при клике на элемент списка
+    function focusOnFire(fireId, lat, lon) {
+        const marker = fireMarkersMap[fireId];
+        if (marker) {
+            map.setView([lat, lon], 11, { animate: true, duration: 0.8 });
+            marker.openPopup();
+        }
+    }
+
+    // Первичный запуск дашборда и автообновление каждую минуту
+    updateDashboard();
+    setInterval(updateDashboard, 60000);
 </script>
 
 </body>
