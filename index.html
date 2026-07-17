@@ -6,9 +6,12 @@
     <title>Ситуационный центр мониторинга пожаров</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Подключаем стили и скрипты карты Leaflet.js -->
+    <!-- Карты Leaflet.js -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Плагин для тепловых карт (Heatmap) -->
+    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
 
     <style>
         body {
@@ -37,7 +40,6 @@
             font-size: 14px;
         }
 
-        /* Карточки метрик (KPI) */
         .kpi-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -68,7 +70,6 @@
             color: #0f172a;
         }
 
-        /* Главная рабочая область (Карта + Таблица) */
         .dashboard-grid {
             display: grid;
             grid-template-columns: 1fr 450px;
@@ -79,7 +80,6 @@
             .dashboard-grid { grid-template-columns: 1fr; }
         }
 
-        /* Стили карты */
         .map-wrapper {
             background: white;
             border-radius: 16px;
@@ -90,14 +90,13 @@
             flex-direction: column;
         }
         #map {
-            flex-index: 1;
+            flex: 1;
             width: 100%;
             height: 100%;
             border-radius: 12px;
             z-index: 1;
         }
 
-        /* Правая панель со списком */
         .panel-wrapper {
             background: white;
             border-radius: 16px;
@@ -132,7 +131,6 @@
         .fire-item:hover {
             border-color: #cbd5e1;
             background: #f1f5f9;
-            transform: translateY(-1px);
         }
         .fire-item-header {
             display: flex;
@@ -159,7 +157,6 @@
             color: #64748b;
         }
 
-        /* Индикаторы мощности */
         .frp-badge {
             font-weight: 700;
             padding: 2px 6px;
@@ -170,7 +167,6 @@
         .frp-medium { background: #ffedd5; color: #f97316; }
         .frp-low { background: #f0fdf4; color: #22c55e; }
 
-        /* Секция карт NDMI */
         .ndmi-section h2 {
             font-size: 18px;
             font-weight: 700;
@@ -217,7 +213,6 @@
         <p>Оперативные спутниковые данные тепловых аномалий NASA FIRMS и индексы влажности NDMI</p>
     </header>
 
-    <!-- KPI Блок -->
     <div class="kpi-grid">
         <div class="kpi-card" id="kpi-total-card">
             <div class="kpi-label">Активные термоаномалии</div>
@@ -233,23 +228,17 @@
         </div>
     </div>
 
-    <!-- Основная рабочая область -->
     <div class="dashboard-grid">
-        <!-- Интерактивная карта -->
         <div class="map-wrapper">
             <div id="map"></div>
         </div>
 
-        <!-- Боковая панель списка -->
         <div class="panel-wrapper">
             <div class="panel-header">Оперативная сводка очагов</div>
-            <div class="fires-list" id="fires-list-container">
-                <!-- Сюда JS вставит карточки -->
-            </div>
+            <div class="fires-list" id="fires-list-container"></div>
         </div>
     </div>
 
-    <!-- Раздел карт NDMI -->
     <div class="ndmi-section">
         <h2>Индексы влажности лесных массивов (NDMI)</h2>
         <div class="ndmi-grid">
@@ -268,17 +257,36 @@
 </div>
 
 <script>
-    // Инициализируем карту Leaflet с центром на границе областей
+    // Центрируем карту на восток РК
     const map = L.map('map').setView([50.7, 79.5], 7);
 
-    // Подключаем слой красивой светлой карты (CartoDB Positron)
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    // Слой 1: Темная карта (близко к оригиналу из скриншота)
+    const darkMap = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; OpenStreetMap &copy; CARTO'
-    }).addTo(map);
+    });
 
-    // Массив для хранения всех маркеров на карте
-    let markersGroup = L.layerGroup().addTo(map);
-    let fireMarkersMap = {};
+    // Слой 2: Светлая карта
+    const lightMap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap &copy; CARTO'
+    });
+
+    // Слой 3: Спутник
+    const satelliteMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri'
+    });
+
+    // По умолчанию включаем стильную темную карту
+    darkMap.addTo(map);
+
+    const baseMaps = {
+        "Темная тема": darkMap,
+        "Светлая тема": lightMap,
+        "Спутниковые снимки": satelliteMap
+    };
+    L.control.layers(baseMaps, null, { position: 'topright' }).addTo(map);
+
+    // Объект для Heatmap слоя
+    let heatLayer = null;
 
     async function updateDashboard() {
         try {
@@ -286,28 +294,27 @@
             if (!response.ok) throw new Error("Ошибка загрузки JSON");
             const fires = await response.json();
 
-            // Очищаем старые маркеры
-            markersGroup.clearLayers();
-            fireMarkersMap = {};
-
             const listContainer = document.getElementById('fires-list-container');
             
-            // Если пожаров нет
+            if (heatLayer) {
+                map.removeLayer(heatLayer);
+            }
+
             if (fires.length === 0) {
                 document.getElementById('kpi-total').innerText = '0';
                 document.getElementById('kpi-max').innerText = '0 МВт';
                 document.getElementById('kpi-status').innerText = 'Стабильно';
-                
                 document.getElementById('kpi-total-card').className = 'kpi-card success';
                 document.getElementById('kpi-max-card').className = 'kpi-card success';
                 document.getElementById('kpi-status-card').className = 'kpi-card success';
-                
-                listContainer.innerHTML = `<div style="text-align: center; color: #22c55e; font-weight: 500; padding: 40px 10px;">✅ Критических очагов в лесных зонах не обнаружено</div>`;
+                listContainer.innerHTML = `<div style="text-align: center; color: #22c55e; padding: 40px 10px;">✅ Крических очагов не обнаружено</div>`;
                 return;
             }
 
-            // Вычисляем KPI метрики
             let maxFrp = 0;
+            let heatPoints = [];
+            let listHtml = '';
+
             fires.forEach(f => { if(parseFloat(f.frp) > maxFrp) maxFrp = parseFloat(f.frp); });
 
             document.getElementById('kpi-total').innerText = fires.length;
@@ -325,55 +332,21 @@
                 document.getElementById('kpi-max-card').className = 'kpi-card warning';
             }
 
-            let listHtml = '';
-            
-            // Отрисовываем маркеры и карточки списка
             fires.forEach((fire, index) => {
                 const lat = parseFloat(fire.lat);
                 const lon = parseFloat(fire.lon);
                 const frp = parseFloat(fire.frp);
                 
-                // Цвет маркера в зависимости от угрозы
-                let markerColor = '#22c55e'; // Зеленый (слабый)
+                // Нормализуем интенсивность для тепловой карты (вес точки)
+                const intensity = Math.min(frp / 50, 1.0);
+                heatPoints.push([lat, lon, intensity]);
+
                 let badgeClass = 'frp-low';
-                if (frp >= 25.0) {
-                    markerColor = '#ef4444'; // Красный (сильный)
-                    badgeClass = 'frp-high';
-                } else if (frp >= 12.0) {
-                    markerColor = '#f97316'; // Оранжевый (средний)
-                    badgeClass = 'frp-medium';
-                }
+                if (frp >= 25.0) badgeClass = 'frp-high';
+                else if (frp >= 12.0) badgeClass = 'frp-medium';
 
-                // Добавляем маркер круга на карту
-                const marker = L.circleMarker([lat, lon], {
-                    radius: Math.min(Math.max(frp * 0.2, 6), 18), // Динамический размер круга от мощности
-                    fillColor: markerColor,
-                    color: '#fff',
-                    weight: 2,
-                    opacity: 1,
-                    fillOpacity: 0.8
-                });
-
-                // Красивый Popup при клике на маркер
-                marker.bindPopup(`
-                    <div style="font-family: 'Inter', sans-serif; font-size: 13px;">
-                        <b style="font-size: 14px; color: #0f172a;">${fire.location}</b><br>
-                        <span style="color: #64748b;">Время:</span> ${fire.time}<br>
-                        <span style="color: #64748b;">Мощность:</span> <b style="color: ${markerColor}">${fire.frp} МВт</b><br>
-                        <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 8px 0;">
-                        <a href="${fire.maps_link}" target="_blank" style="color: #3b82f6; text-decoration: none; font-weight: 500;">Открыть в Google Maps →</a>
-                    </div>
-                `);
-                
-                markersGroup.addLayer(marker);
-                
-                // Сохраняем ссылку на маркер для интерактива из списка
-                const fireId = `fire-${index}`;
-                fireMarkersMap[fireId] = marker;
-
-                // Строим HTML карточки для боковой панели
                 listHtml += `
-                    <div class="fire-item" onclick="focusOnFire('${fireId}', ${lat}, ${lon})">
+                    <div class="fire-item" onclick="focusOnCoords(${lat}, ${lon})">
                         <div class="fire-item-header">
                             <div class="fire-item-loc">${fire.location}</div>
                             <span class="frp-badge ${badgeClass}">${fire.frp} МВт</span>
@@ -386,24 +359,32 @@
                 `;
             });
 
+            // Инициализируем и настраиваем Heatmap (градиент и размытие один в один как у Казкосмоса)
+            heatLayer = L.heatLayer(heatPoints, {
+                radius: 20,
+                blur: 15,
+                maxZoom: 10,
+                gradient: {
+                    0.2: 'blue',
+                    0.4: 'cyan',
+                    0.6: 'lime',
+                    0.8: 'yellow',
+                    1.0: 'red'
+                }
+            }).addTo(map);
+
             listContainer.innerHTML = listHtml;
 
         } catch (error) {
             console.error(error);
-            document.getElementById('kpi-status').innerText = 'Ошибка сети';
+            document.getElementById('kpi-status').innerText = 'Ошибка данных';
         }
     }
 
-    // Функция центрирования карты при клике на элемент списка
-    function focusOnFire(fireId, lat, lon) {
-        const marker = fireMarkersMap[fireId];
-        if (marker) {
-            map.setView([lat, lon], 11, { animate: true, duration: 0.8 });
-            marker.openPopup();
-        }
+    function focusOnCoords(lat, lon) {
+        map.setView([lat, lon], 10, { animate: true, duration: 0.8 });
     }
 
-    // Первичный запуск дашборда и автообновление каждую минуту
     updateDashboard();
     setInterval(updateDashboard, 60000);
 </script>
