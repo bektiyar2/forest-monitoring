@@ -1,0 +1,604 @@
+[
+    {
+        "lat": "53.62656",
+        "lon": "79.84006",
+        "frp": "8.6",
+        "time": "2026-07-17 54:4",
+        "maps_link": "https://www.google.com/maps?q=53.62656,79.84006"
+    },
+    {
+        "lat": "53.62799",
+        "lon": "79.82252",
+        "frp": "7.63",
+        "time": "2026-07-17 54:4",
+        "maps_link": "https://www.google.com/maps?q=53.62799,79.82252"
+    },
+    {
+        "lat": "49.66042",
+        "lon": "72.97878",
+        "frp": "6.25",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=49.66042,72.97878"
+    },
+    {
+        "lat": "49.66045",
+        "lon": "72.97751",
+        "frp": "6.04",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=49.66045,72.97751"
+    },
+    {
+        "lat": "49.66195",
+        "lon": "72.98494",
+        "frp": "8.25",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=49.66195,72.98494"
+    },
+    {
+        "lat": "49.66201",
+        "lon": "72.98365",
+        "frp": "6.04",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=49.66201,72.98365"
+    },
+    {
+        "lat": "49.66303",
+        "lon": "72.96892",
+        "frp": "6.71",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=49.66303,72.96892"
+    },
+    {
+        "lat": "49.66303",
+        "lon": "72.97016",
+        "frp": "13.4",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=49.66303,72.97016"
+    },
+    {
+        "lat": "49.66347",
+        "lon": "72.9911",
+        "frp": "8.25",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=49.66347,72.9911"
+    },
+    {
+        "lat": "49.66356",
+        "lon": "72.98978",
+        "frp": "19.38",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=49.66356,72.98978"
+    },
+    {
+        "lat": "49.66499",
+        "lon": "72.99725",
+        "frp": "11.92",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=49.66499,72.99725"
+    },
+    {
+        "lat": "49.66511",
+        "lon": "72.99592",
+        "frp": "19.38",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=49.66511,72.99592"
+    },
+    {
+        "lat": "49.66608",
+        "lon": "72.98248",
+        "frp": "7.93",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=49.66608,72.98248"
+    },
+    {
+        "lat": "49.66614",
+        "lon": "72.98119",
+        "frp": "13.2",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=49.66614,72.98119"
+    },
+    {
+        "lat": "49.66761",
+        "lon": "72.98865",
+        "frp": "7.93",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=49.66761,72.98865"
+    },
+    {
+        "lat": "49.66769",
+        "lon": "72.98735",
+        "frp": "15.37",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=49.66769,72.98735"
+    },
+    {
+        "lat": "49.66912",
+        "lon": "72.9948",
+        "frp": "10.9",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=49.66912,72.9948"
+    },
+    {
+        "lat": "49.67022",
+        "lon": "72.98003",
+        "frp": "7.93",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=49.67022,72.98003"
+    },
+    {
+        "lat": "49.71207",
+        "lon": "72.02176",
+        "frp": "5.11",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=49.71207,72.02176"
+    },
+    {
+        "lat": "49.99174",
+        "lon": "76.45752",
+        "frp": "23.16",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=49.99174,76.45752"
+    },
+    {
+        "lat": "49.99535",
+        "lon": "76.4555",
+        "frp": "9.2",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=49.99535,76.4555"
+    },
+    {
+        "lat": "50.04012",
+        "lon": "73.01447",
+        "frp": "5.08",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=50.04012,73.01447"
+    },
+    {
+        "lat": "50.41423",
+        "lon": "79.91509",
+        "frp": "5.64",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=50.41423,79.91509"
+    },
+    {
+        "lat": "50.69191",
+        "lon": "80.4762",
+        "frp": "10.73",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=50.69191,80.4762"
+    },
+    {
+        "lat": "51.49263",
+        "lon": "73.63197",
+        "frp": "5.56",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=51.49263,73.63197"
+    },
+    {
+        "lat": "51.99184",
+        "lon": "76.9175",
+        "frp": "3.51",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=51.99184,76.9175"
+    },
+    {
+        "lat": "51.99529",
+        "lon": "76.91569",
+        "frp": "7.08",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=51.99529,76.91569"
+    },
+    {
+        "lat": "52.40033",
+        "lon": "73.75513",
+        "frp": "11.3",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=52.40033,73.75513"
+    },
+    {
+        "lat": "52.40211",
+        "lon": "73.76293",
+        "frp": "14",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=52.40211,73.76293"
+    },
+    {
+        "lat": "52.41478",
+        "lon": "73.79955",
+        "frp": "4.77",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=52.41478,73.79955"
+    },
+    {
+        "lat": "52.83476",
+        "lon": "78.68829",
+        "frp": "13.27",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=52.83476,78.68829"
+    },
+    {
+        "lat": "52.83582",
+        "lon": "78.69415",
+        "frp": "6.93",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=52.83582,78.69415"
+    },
+    {
+        "lat": "52.83699",
+        "lon": "78.68079",
+        "frp": "15.54",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=52.83699,78.68079"
+    },
+    {
+        "lat": "52.83805",
+        "lon": "78.68665",
+        "frp": "15.54",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=52.83805,78.68665"
+    },
+    {
+        "lat": "53.39045",
+        "lon": "80.64831",
+        "frp": "2.65",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=53.39045,80.64831"
+    },
+    {
+        "lat": "53.62009",
+        "lon": "79.83651",
+        "frp": "7.75",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=53.62009,79.83651"
+    },
+    {
+        "lat": "53.62105",
+        "lon": "79.84226",
+        "frp": "4.63",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=53.62105,79.84226"
+    },
+    {
+        "lat": "53.62143",
+        "lon": "79.82349",
+        "frp": "4.31",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=53.62143,79.82349"
+    },
+    {
+        "lat": "53.62335",
+        "lon": "79.83498",
+        "frp": "7.75",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=53.62335,79.83498"
+    },
+    {
+        "lat": "53.6243",
+        "lon": "79.84072",
+        "frp": "4.63",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=53.6243,79.84072"
+    },
+    {
+        "lat": "53.62468",
+        "lon": "79.82195",
+        "frp": "5.34",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=53.62468,79.82195"
+    },
+    {
+        "lat": "53.62564",
+        "lon": "79.8277",
+        "frp": "15.51",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=53.62564,79.8277"
+    },
+    {
+        "lat": "53.62698",
+        "lon": "79.81467",
+        "frp": "5.34",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=53.62698,79.81467"
+    },
+    {
+        "lat": "53.62794",
+        "lon": "79.82041",
+        "frp": "5.34",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=53.62794,79.82041"
+    },
+    {
+        "lat": "53.62928",
+        "lon": "79.8074",
+        "frp": "2.21",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=53.62928,79.8074"
+    },
+    {
+        "lat": "53.63081",
+        "lon": "79.83765",
+        "frp": "4.87",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=53.63081,79.83765"
+    },
+    {
+        "lat": "53.63406",
+        "lon": "79.83613",
+        "frp": "3.31",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=53.63406,79.83613"
+    },
+    {
+        "lat": "53.63444",
+        "lon": "79.81734",
+        "frp": "4.16",
+        "time": "2026-07-17 72:2",
+        "maps_link": "https://www.google.com/maps?q=53.63444,79.81734"
+    },
+    {
+        "lat": "54.35104",
+        "lon": "76.21455",
+        "frp": "2.84",
+        "time": "2026-07-17 72:4",
+        "maps_link": "https://www.google.com/maps?q=54.35104,76.21455"
+    },
+    {
+        "lat": "54.35314",
+        "lon": "76.2062",
+        "frp": "2.84",
+        "time": "2026-07-17 72:4",
+        "maps_link": "https://www.google.com/maps?q=54.35314,76.2062"
+    },
+    {
+        "lat": "54.35441",
+        "lon": "76.21262",
+        "frp": "2.84",
+        "time": "2026-07-17 72:4",
+        "maps_link": "https://www.google.com/maps?q=54.35441,76.21262"
+    },
+    {
+        "lat": "54.49471",
+        "lon": "76.23917",
+        "frp": "3.51",
+        "time": "2026-07-17 72:4",
+        "maps_link": "https://www.google.com/maps?q=54.49471,76.23917"
+    },
+    {
+        "lat": "49.65672",
+        "lon": "72.9793",
+        "frp": "11.98",
+        "time": "2026-07-17 90:2",
+        "maps_link": "https://www.google.com/maps?q=49.65672,72.9793"
+    },
+    {
+        "lat": "49.65687",
+        "lon": "72.98534",
+        "frp": "14.22",
+        "time": "2026-07-17 90:2",
+        "maps_link": "https://www.google.com/maps?q=49.65687,72.98534"
+    },
+    {
+        "lat": "49.65722",
+        "lon": "72.97703",
+        "frp": "10.88",
+        "time": "2026-07-17 90:2",
+        "maps_link": "https://www.google.com/maps?q=49.65722,72.97703"
+    },
+    {
+        "lat": "49.65734",
+        "lon": "72.98307",
+        "frp": "10.88",
+        "time": "2026-07-17 90:2",
+        "maps_link": "https://www.google.com/maps?q=49.65734,72.98307"
+    },
+    {
+        "lat": "49.70596",
+        "lon": "72.02271",
+        "frp": "3.64",
+        "time": "2026-07-17 90:2",
+        "maps_link": "https://www.google.com/maps?q=49.70596,72.02271"
+    },
+    {
+        "lat": "49.71148",
+        "lon": "72.02235",
+        "frp": "14.9",
+        "time": "2026-07-17 90:2",
+        "maps_link": "https://www.google.com/maps?q=49.71148,72.02235"
+    },
+    {
+        "lat": "49.71165",
+        "lon": "72.02781",
+        "frp": "12.78",
+        "time": "2026-07-17 90:2",
+        "maps_link": "https://www.google.com/maps?q=49.71165,72.02781"
+    },
+    {
+        "lat": "49.87668",
+        "lon": "76.80708",
+        "frp": "16.62",
+        "time": "2026-07-17 90:2",
+        "maps_link": "https://www.google.com/maps?q=49.87668,76.80708"
+    },
+    {
+        "lat": "49.88173",
+        "lon": "76.80659",
+        "frp": "27.33",
+        "time": "2026-07-17 90:2",
+        "maps_link": "https://www.google.com/maps?q=49.88173,76.80659"
+    },
+    {
+        "lat": "49.88181",
+        "lon": "76.79731",
+        "frp": "27.33",
+        "time": "2026-07-17 90:2",
+        "maps_link": "https://www.google.com/maps?q=49.88181,76.79731"
+    },
+    {
+        "lat": "49.8819",
+        "lon": "76.7875",
+        "frp": "21.46",
+        "time": "2026-07-17 90:2",
+        "maps_link": "https://www.google.com/maps?q=49.8819,76.7875"
+    },
+    {
+        "lat": "49.88343",
+        "lon": "76.80746",
+        "frp": "16.62",
+        "time": "2026-07-17 90:2",
+        "maps_link": "https://www.google.com/maps?q=49.88343,76.80746"
+    },
+    {
+        "lat": "49.88355",
+        "lon": "76.79831",
+        "frp": "23.69",
+        "time": "2026-07-17 90:2",
+        "maps_link": "https://www.google.com/maps?q=49.88355,76.79831"
+    },
+    {
+        "lat": "49.88367",
+        "lon": "76.78867",
+        "frp": "23.69",
+        "time": "2026-07-17 90:2",
+        "maps_link": "https://www.google.com/maps?q=49.88367,76.78867"
+    },
+    {
+        "lat": "49.99619",
+        "lon": "76.49677",
+        "frp": "6.78",
+        "time": "2026-07-17 90:2",
+        "maps_link": "https://www.google.com/maps?q=49.99619,76.49677"
+    },
+    {
+        "lat": "50.00056",
+        "lon": "76.49766",
+        "frp": "7.78",
+        "time": "2026-07-17 90:2",
+        "maps_link": "https://www.google.com/maps?q=50.00056,76.49766"
+    },
+    {
+        "lat": "50.00062",
+        "lon": "76.48835",
+        "frp": "7.78",
+        "time": "2026-07-17 90:2",
+        "maps_link": "https://www.google.com/maps?q=50.00062,76.48835"
+    },
+    {
+        "lat": "50.00286",
+        "lon": "76.49764",
+        "frp": "6.78",
+        "time": "2026-07-17 90:2",
+        "maps_link": "https://www.google.com/maps?q=50.00286,76.49764"
+    },
+    {
+        "lat": "50.06261",
+        "lon": "73.05695",
+        "frp": "4.52",
+        "time": "2026-07-17 90:2",
+        "maps_link": "https://www.google.com/maps?q=50.06261,73.05695"
+    },
+    {
+        "lat": "50.06273",
+        "lon": "73.06324",
+        "frp": "8.36",
+        "time": "2026-07-17 90:2",
+        "maps_link": "https://www.google.com/maps?q=50.06273,73.06324"
+    },
+    {
+        "lat": "50.06285",
+        "lon": "73.05907",
+        "frp": "4.21",
+        "time": "2026-07-17 90:2",
+        "maps_link": "https://www.google.com/maps?q=50.06285,73.05907"
+    },
+    {
+        "lat": "50.06299",
+        "lon": "73.06535",
+        "frp": "4.21",
+        "time": "2026-07-17 90:2",
+        "maps_link": "https://www.google.com/maps?q=50.06299,73.06535"
+    },
+    {
+        "lat": "52.39811",
+        "lon": "73.1285",
+        "frp": "9.9",
+        "time": "2026-07-17 90:5",
+        "maps_link": "https://www.google.com/maps?q=52.39811,73.1285"
+    },
+    {
+        "lat": "52.43566",
+        "lon": "73.88792",
+        "frp": "7.67",
+        "time": "2026-07-17 90:5",
+        "maps_link": "https://www.google.com/maps?q=52.43566,73.88792"
+    },
+    {
+        "lat": "52.83403",
+        "lon": "78.69335",
+        "frp": "8.68",
+        "time": "2026-07-17 90:5",
+        "maps_link": "https://www.google.com/maps?q=52.83403,78.69335"
+    },
+    {
+        "lat": "52.83421",
+        "lon": "78.69296",
+        "frp": "20.63",
+        "time": "2026-07-17 90:5",
+        "maps_link": "https://www.google.com/maps?q=52.83421,78.69296"
+    },
+    {
+        "lat": "52.8344",
+        "lon": "78.68181",
+        "frp": "8.68",
+        "time": "2026-07-17 90:5",
+        "maps_link": "https://www.google.com/maps?q=52.8344,78.68181"
+    },
+    {
+        "lat": "52.83463",
+        "lon": "78.6814",
+        "frp": "5.94",
+        "time": "2026-07-17 90:5",
+        "maps_link": "https://www.google.com/maps?q=52.83463,78.6814"
+    },
+    {
+        "lat": "54.35439",
+        "lon": "76.30486",
+        "frp": "229.38",
+        "time": "2026-07-17 90:5",
+        "maps_link": "https://www.google.com/maps?q=54.35439,76.30486"
+    },
+    {
+        "lat": "54.35475",
+        "lon": "76.28536",
+        "frp": "27.96",
+        "time": "2026-07-17 90:5",
+        "maps_link": "https://www.google.com/maps?q=54.35475,76.28536"
+    },
+    {
+        "lat": "54.35493",
+        "lon": "76.27564",
+        "frp": "27.96",
+        "time": "2026-07-17 90:5",
+        "maps_link": "https://www.google.com/maps?q=54.35493,76.27564"
+    },
+    {
+        "lat": "54.35529",
+        "lon": "76.25624",
+        "frp": "21.29",
+        "time": "2026-07-17 90:5",
+        "maps_link": "https://www.google.com/maps?q=54.35529,76.25624"
+    },
+    {
+        "lat": "54.35546",
+        "lon": "76.24652",
+        "frp": "18.66",
+        "time": "2026-07-17 90:5",
+        "maps_link": "https://www.google.com/maps?q=54.35546,76.24652"
+    },
+    {
+        "lat": "54.36841",
+        "lon": "76.26683",
+        "frp": "6.22",
+        "time": "2026-07-17 90:5",
+        "maps_link": "https://www.google.com/maps?q=54.36841,76.26683"
+    }
+]
